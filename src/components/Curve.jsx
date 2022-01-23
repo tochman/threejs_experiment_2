@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { CubicBezierCurve3 } from "three";
 import {
