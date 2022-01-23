@@ -1,11 +1,7 @@
 import React from "react";
-
+import Globe from "./components/Globe";
 const App = () => {
-  return (
-    <>
-      <h1>Globe</h1>
-    </>
-  );
+  return <Globe />;
 };
 
 export default App;
