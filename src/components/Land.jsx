@@ -7,7 +7,6 @@ import {
   ROTATION,
 } from "../utilities/globe";
 
-
 const Land = () => {
   const [dots, setDots] = useState([]);
 

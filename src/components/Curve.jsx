@@ -9,14 +9,12 @@ import {
 } from "../utilities/globe";
 import { geoInterpolate } from "d3";
 const Curve = ({ travel }) => {
-  const [isShown, setIsShown] = useState(true);
+  const [isShown, setIsShown] = useState(false);
+  const geometry = useRef();
 
   let time;
   const drawAnimatedLine = () => {
-    setIsShown(true);
     time = 0;
-    // timeRandom = parseInt(Math.random() * 4000)
-
     const interval = setInterval(() => {
       time += 100;
       geometry?.current?.setDrawRange(0, time);
@@ -28,10 +26,13 @@ const Curve = ({ travel }) => {
   };
 
   useEffect(() => {
-    drawAnimatedLine();
+    let timeRandom = parseInt(Math.random() * 4000);
+    setTimeout(() => {
+      setIsShown(true);
+      drawAnimatedLine();
+    }, timeRandom);
   }, []);
 
-  const geometry = useRef();
   const curve = useMemo(() => {
     const { start, end } = travel;
 
@@ -60,28 +61,27 @@ const Curve = ({ travel }) => {
 
   const point = useMemo(() => {
     const p = polar2Cartesian(travel.start.lat, travel.start.lng, RADIUS);
-
     return [p.x, p.y, p.z];
-  }, [travel]);
+  }, []);
 
   useMemo(() => {
     if (geometry.current) {
-      void (
-        // geometry.current.setDrawRange(0, 0);
-        drawAnimatedLine()
-      );
+      geometry.current.setDrawRange(3000, 1);
+      drawAnimatedLine();
     }
   }, [travel]);
 
   return (
     <>
+      <mesh rotation={ROTATION}>
+        <mesh position={point}>
+          <sphereBufferGeometry args={[1, 15, 15]} />
+          <meshBasicMaterial color="lightgrey" />
+        </mesh>
+      </mesh>
       {isShown && (
         <>
           <mesh rotation={ROTATION}>
-            <mesh position={point}>
-              <sphereBufferGeometry args={[1, 15, 15]} />
-              <meshBasicMaterial color="lightgrey" />
-            </mesh>
             <tubeBufferGeometry args={[curve, 44, 0.2, 8]} ref={geometry} />
             <meshBasicMaterial color="grey" />
           </mesh>

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Earth from "./Earth";
@@ -55,7 +55,7 @@ const Globe = () => {
       <Canvas orthographic camera={{ position: [0, 0, 200], zoom: 3.5 }}>
         {travels.map((travel) => {
           
-          return <Suspense fallback="Loading"><Curve key={travel.name} travel={travel} /></Suspense>;
+          return <Curve key={travel.name} travel={travel} />;
         })}
         <Land />
         <Earth />
