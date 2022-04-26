@@ -35,7 +35,7 @@ const Land = () => {
   }, []);
 
   return (
-    <points rotation={ROTATION}>
+    <points rotation={ROTATION} name="land">
       <bufferGeometry attach="geometry">
         {dots.length && (
           <bufferAttribute
@@ -46,7 +46,7 @@ const Land = () => {
           />
         )}
       </bufferGeometry>
-      <pointsMaterial size={1.2} color="rgb(154,174,182)" />
+      <pointsMaterial size={1} color="rgb(154,174,182)" />
     </points>
   );
 };
