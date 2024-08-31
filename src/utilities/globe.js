@@ -1,6 +1,19 @@
-import { Vector3 } from "three";
+import { Vector3, SphereGeometry, MeshBasicMaterial, Mesh  } from "three";
 
 const RADIUS = 80;
+
+// Function to create a dot on the globe
+const createDot = (lat, lng, radius = 1, color = 0xff0000) => {
+  const geometry = new SphereGeometry(radius, 32, 32);
+  const material = new MeshBasicMaterial({ color });
+  const sphere = new Mesh(geometry, material);
+
+  // Position the sphere using the polar2Cartesian function
+  const { x, y, z } = polar2Cartesian(lat, lng, RADIUS, 0.005);
+  sphere.position.set(x, y, z);
+
+  return sphere;
+};
 
 const visibilityForCoordinate = (t, e, n) => {
   const i = 4 * n.width,
@@ -51,6 +64,7 @@ const ROTATION = [0, Math.PI * (timeZoneOffset / timeZoneMaxOffset), 0];
 
 export {
   RADIUS,
+  createDot,
   visibilityForCoordinate,
   getImageData,
   loadMap,
