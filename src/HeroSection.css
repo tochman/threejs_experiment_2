@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+.hero-container {
+  position: relative;
+  height: 70vh; /* Height of the hero section */
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the left */
+  background-color: rgb(11, 20, 24);
+}
+
+.globe-container {
+  position: absolute;
+  top: -10vh; /* Adjust top position to move the globe up */
+  right: -20vw; /* Move the globe to the left */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Hide the overflow */
+}
+
+.text-container {
+  position: relative;
+  z-index: 10;
+  padding-left: 10%; /* Adjust padding for text positioning */
+}
+
+.hero-text {
+  color: white;
+  font-size: 5vw; /* Increase font size for more prominence */
+  font-weight: 700; /* Make the text bolder */
+  line-height: 1.2;
+  font-family: 'Orbitron', sans-serif; /* Apply the Orbitron font */
+  text-transform: uppercase; /* Make the text uppercase for impact */
+}
+
+/* Media Queries for Further Responsiveness */
+@media (max-width: 768px) {
+  .hero-text {
+    font-size: 7vw; /* Adjust font size for smaller screens */
+  }
+
+  .globe-container {
+    top: -15vh;
+    right: -60vw; /* Further adjustments for small screens */
+    width: 120vw;
+    height: 120vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-text {
+    font-size: 4vw; /* Slightly smaller font size for larger screens */
+  }
+
+  .globe-container {
+    top: -13vh;
+    right: -33vw; /* Adjustments for large screens */
+    width: 100vw;
+    height: 100vh;
+  }
+}

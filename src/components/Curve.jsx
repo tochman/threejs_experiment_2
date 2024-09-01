@@ -161,12 +161,6 @@ const Curve = ({ travel }) => {
             color={index === 0 ? "white" : "lightgrey"} 
             visible={dotsVisible[index]}
           />
-          {/* <mesh rotation={ROTATION} key={index} visible={dotsVisible[index]}>
-            <mesh position={point}>
-              <sphereBufferGeometry args={[1, 15, 15]} />
-              <meshBasicMaterial color={index === 0 ? "lightgrey" : "red"} />
-            </mesh>
-          </mesh> */}
         </>
       ))}
     </>

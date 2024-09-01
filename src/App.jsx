@@ -1,19 +1,16 @@
 import React from "react";
-import Globe from "./components/Globe";
-import { Canvas } from "@react-three/fiber";
+import HeroSection from "./HeroSection"; // Make sure the path is correct
 
 const App = () => {
   return (
     <div
       style={{
-        width: "100 vw",
+        width: "100vw",
         height: "100vh",
-        backgroundColor: "rgb(11,20,24)",
+        
       }}
     >
-      <Canvas orthographic camera={{ position: [0, 0, 200], zoom: 3.5 }}>
-        <Globe />
-      </Canvas>
+      <HeroSection />
     </div>
   );
 };
