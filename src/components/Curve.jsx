@@ -3,6 +3,7 @@ import React, { useMemo, useRef, useState, useEffect } from "react";
 import { CubicBezierCurve3 } from "three";
 import { RADIUS, toVector, ROTATION } from "../utilities/globe";
 import { geoInterpolate } from "d3";
+import PulsingDot from "./PulsingDot";
 
 const Curve = ({ travel }) => {
   const [currentSegment, setCurrentSegment] = useState(-1); // Track the current segment; start with -1 to hide all initially
@@ -23,15 +24,15 @@ const Curve = ({ travel }) => {
       if (progress < 1) {
         requestAnimationFrame(animate); // Continue the animation
       } else {
-        // After the segment is fully drawn, show the next dot and move to the next segment
-        setTimeout(() => { // Introduce a slight delay before moving to the next segment
+        setTimeout(() => {
+          // Introduce a slight delay before moving to the next segment
           setDotsVisible((prev) => {
             const newDotsVisible = [...prev];
             newDotsVisible[index + 1] = true;
             return newDotsVisible;
           });
           setCurrentSegment((prev) => prev + 1);
-        }, 2); // 100ms delay before starting the next segment
+        }, 50); // 50ms delay before starting the next segment
       }
     };
 
@@ -62,6 +63,7 @@ const Curve = ({ travel }) => {
   const curves = useMemo(() => {
     if (!travel.stops || travel.stops.length < 2) {
       // Single leg travel
+      setDotsVisible([true, false]);
       const startXYZ = toVector(travel.start.lat, travel.start.lng, RADIUS);
       const endXYZ = toVector(travel.end.lat, travel.end.lng, RADIUS);
 
@@ -151,12 +153,21 @@ const Curve = ({ travel }) => {
 
       {/* Spheres at Each Stop Point */}
       {startPoints.map((point, index) => (
-        <mesh rotation={ROTATION} key={index} visible={dotsVisible[index]}>
-          <mesh position={point}>
-            <sphereBufferGeometry args={[1, 15, 15]} />
-            <meshBasicMaterial color={index === 0 ? "lightgrey" : "grey"} />
-          </mesh>
-        </mesh>
+        <>
+          <PulsingDot
+            position={point}
+            key={index}
+            rotation={ROTATION}
+            color={index === 0 ? "white" : "lightgrey"} 
+            visible={dotsVisible[index]}
+          />
+          {/* <mesh rotation={ROTATION} key={index} visible={dotsVisible[index]}>
+            <mesh position={point}>
+              <sphereBufferGeometry args={[1, 15, 15]} />
+              <meshBasicMaterial color={index === 0 ? "lightgrey" : "red"} />
+            </mesh>
+          </mesh> */}
+        </>
       ))}
     </>
   );

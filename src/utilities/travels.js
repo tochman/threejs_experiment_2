@@ -24,21 +24,21 @@ export const travels = [
   //   start: pointOfOrigin,
   //   end: { lat: -26.195246, lng: 28.034088 },
   // },
-  {
-    name: "New York",
-    start: pointOfOrigin,
-    end: { lat: 40.71427, lng: -74.00597 },
-  },
-  {
-    name: "Sydney",
-    start: pointOfOrigin,
-    end: { lat: -33.771, lng: 150.906296 },
-  },
-  {
-    name: "Sarajevo",
-    start: pointOfOrigin,
-    end: { lat: 43.85643, lng: 18.413029 },
-  },
+  // {
+  //   name: "New York",
+  //   start: pointOfOrigin,
+  //   end: { lat: 40.71427, lng: -74.00597 },
+  // },
+  // {
+  //   name: "Sydney",
+  //   start: pointOfOrigin,
+  //   end: { lat: -33.771, lng: 150.906296 },
+  // },
+  // {
+  //   name: "Sarajevo",
+  //   start: pointOfOrigin,
+  //   end: { lat: 43.85643, lng: 18.413029 },
+  // },
   {
     name: "Multi-stop",
     stops: [
