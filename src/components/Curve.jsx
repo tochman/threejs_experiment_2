@@ -4,12 +4,23 @@ import { CubicBezierCurve3 } from "three";
 import { RADIUS, toVector, ROTATION } from "../utilities/globe";
 import { geoInterpolate } from "d3";
 import { useFrame } from "@react-three/fiber";
+import { useGlobeConfig } from "../config/GlobeConfigProvider";
 
 const TUBE_SEGMENTS = 44;
 const RADIAL_SEGMENTS = 8;
 const TOTAL_DRAW_COUNT = TUBE_SEGMENTS * RADIAL_SEGMENTS * 6;
 
 const Curve = ({ travel }) => {
+  const { 
+    lineColor, 
+    originDotColor, 
+    destinationDotColor, 
+    dotSize,
+    lineDrawDuration,
+    pauseDuration,
+    fadeDuration 
+  } = useGlobeConfig();
+
   // Use refs for animation state to avoid re-renders
   const stateRef = useRef({
     currentSegment: -1,
@@ -117,7 +128,7 @@ const Curve = ({ travel }) => {
 
       case 'drawing': {
         const elapsed = now - state.segmentStartTime;
-        const duration = 3500;
+        const duration = lineDrawDuration;
         const progress = Math.min(elapsed / duration, 1);
         const segmentIndex = state.currentSegment;
 
@@ -135,7 +146,7 @@ const Curve = ({ travel }) => {
           if (segmentIndex >= curves.length - 1) {
             // All segments done, pause before fading
             state.phase = 'pausing';
-            state.animationStartTime = now + 2000;
+            state.animationStartTime = now + pauseDuration;
           } else {
             // Move to next segment
             state.currentSegment++;
@@ -156,7 +167,7 @@ const Curve = ({ travel }) => {
 
       case 'fading': {
         const elapsed = now - state.animationStartTime;
-        const duration = 2500;
+        const duration = fadeDuration;
         const progress = Math.min(elapsed / duration, 1);
         const newOpacity = 1 - progress;
         state.opacity = newOpacity;
@@ -246,7 +257,7 @@ const Curve = ({ travel }) => {
             }}
           />
           <meshBasicMaterial
-            color="grey"
+            color={lineColor}
             transparent
             ref={(el) => {
               if (el) materialsRef.current[index] = el;
@@ -264,9 +275,9 @@ const Curve = ({ travel }) => {
               if (el) dotMeshesRef.current[index] = el;
             }}
           >
-            <sphereGeometry args={[1, 15, 15]} />
+            <sphereGeometry args={[dotSize, 15, 15]} />
             <meshBasicMaterial
-              color={index === 0 ? "white" : "lightgrey"}
+              color={index === 0 ? originDotColor : destinationDotColor}
               transparent
               ref={(el) => {
                 if (el) dotMaterialsRef.current[index] = el;

@@ -1,6 +1,6 @@
 # 3D Interactive Globe with Animated Travel Routes
 
-A React Three Fiber component that renders an interactive 3D globe with animated travel routes connecting locations around the world. Features smooth line animations, pulsing destination dots, and responsive design.
+A React Three Fiber component that renders an interactive 3D globe with animated travel routes connecting locations around the world. Features smooth line animations, pulsing destination dots, responsive design, and a **live configuration panel**.
 
 ![Globe Preview](preview.png)
 
@@ -11,7 +11,8 @@ A React Three Fiber component that renders an interactive 3D globe with animated
 - 📍 **Pulsing Dots** - Visual markers at each location
 - 🔄 **Auto-rotation** - Globe continuously rotates
 - 📱 **Responsive** - Adapts to different screen sizes
-- 🎨 **Customizable** - Easy to modify colors, routes, and styling
+- 🎨 **Live Config Panel** - Real-time color and animation customization
+- 📦 **Export to ZIP** - Download configured component for your project
 
 ## Demo
 
@@ -22,7 +23,40 @@ yarn install
 yarn start
 ```
 
-## Installation in Your React Project
+## Using the Configuration Panel
+
+When you run the demo, a **Leva control panel** appears in the top-right corner. Use it to customize:
+
+### Available Controls
+
+| Section | Controls |
+|---------|----------|
+| **Heading** | Edit the two heading lines displayed on screen |
+| **Background** | Background color |
+| **Globe** | Globe color and opacity |
+| **Continents** | Land dot color and size |
+| **Travel Lines** | Line color |
+| **Dots** | Origin/destination colors and sizes |
+| **Animation** | Draw duration, pause time, fade duration |
+| **Rotation** | Auto-rotate toggle and speed |
+| **Export Project** | Download ZIP with your configuration |
+
+### Exporting Your Configuration
+
+1. Customize all settings using the control panel
+2. Edit the heading text to match your needs
+3. Expand the **"Export Project"** folder
+4. Click **"Download ZIP"**
+
+The ZIP file contains:
+- All component files with your color/animation settings baked in
+- Your custom heading text
+- A README with installation instructions
+- Placeholder for the map.png image
+
+## Manual Installation in Your React Project
+
+If you prefer to copy files manually instead of using the export feature:
 
 ### 1. Install Required Dependencies
 
@@ -45,11 +79,15 @@ src/
 │   ├── Earth.jsx        # Globe sphere
 │   ├── Land.jsx         # Continent dots
 │   └── Curve.jsx        # Animated travel routes
+├── config/
+│   └── globeConfig.js   # Configuration values
 ├── utilities/
 │   ├── globe.js         # Helper functions & constants
 │   ├── travels.js       # Travel route definitions
 │   └── countries.js     # Country coordinates
-└── GlobeAnimation.jsx   # Canvas wrapper component
+├── GlobeAnimation.jsx   # Canvas wrapper component
+├── HeroSection.jsx      # Hero section with heading
+└── HeroSection.css      # Styling
 
 public/
 └── images/
@@ -73,29 +111,50 @@ function App() {
 ### 4. With Hero Section Layout
 
 ```jsx
-import GlobeAnimation from './GlobeAnimation';
-import './HeroSection.css';
+import HeroSection from './HeroSection';
 
-function HeroSection() {
-  return (
-    <section className="hero-container">
-      <div className="text-container">
-        <h1 className="hero-text">
-          <span>LOCAL FOCUS</span>
-          <span>GLOBAL PRESENCE</span>
-        </h1>
-      </div>
-      <div className="globe-container">
-        <GlobeAnimation />
-      </div>
-    </section>
-  );
+function App() {
+  return <HeroSection />;
 }
 ```
 
-## Configuration
+## Configuration File
 
-### Customizing Travel Routes
+The exported `globeConfig.js` contains all customizable settings:
+
+```javascript
+export const globeConfig = {
+  // Background
+  backgroundColor: '#0b1418',
+  
+  // Globe
+  globeColor: '#1c313a',
+  globeOpacity: 0.85,
+  
+  // Continents
+  landColor: '#9aaeb6',
+  landPointSize: 1,
+  
+  // Travel lines
+  lineColor: '#808080',
+  
+  // Dots
+  originDotColor: '#ffffff',
+  destinationDotColor: '#d3d3d3',
+  dotSize: 1,
+  
+  // Animation timing (ms)
+  lineDrawDuration: 3500,
+  pauseDuration: 2000,
+  fadeDuration: 2500,
+  
+  // Globe behavior
+  autoRotate: true,
+  autoRotateSpeed: 1,
+};
+```
+
+## Customizing Travel Routes
 
 Edit `src/utilities/travels.js` to define your own routes:
 
@@ -118,84 +177,20 @@ Edit `src/utilities/travels.js` to define your own routes:
 }
 ```
 
-### Customizing Colors
-
-#### Globe (Earth.jsx)
-```jsx
-<meshBasicMaterial
-  color="rgb(28,49,58)"    // Globe fill color
-  opacity="0.85"
-  transparent={true}
-/>
-```
-
-#### Continents (Land.jsx)
-```jsx
-<pointsMaterial 
-  size={1} 
-  color="rgb(154,174,182)"  // Land dot color
-/>
-```
-
-#### Travel Lines (Curve.jsx)
-```jsx
-<meshBasicMaterial
-  color="grey"              // Line color
-  transparent
-/>
-```
-
-#### Destination Dots (Curve.jsx)
-```jsx
-<meshBasicMaterial
-  color={index === 0 ? "white" : "lightgrey"}  // Origin vs destination
-  transparent
-/>
-```
-
-#### Background (HeroSection.css)
-```css
-.hero-container {
-  background-color: rgb(11, 20, 24);
-}
-```
-
-### Customizing Globe Settings
-
-#### Globe Radius (utilities/globe.js)
-```javascript
-const RADIUS = 80;  // Adjust globe size
-```
-
-#### Camera Zoom (GlobeAnimation.jsx)
-```javascript
-const getZoom = (width) => {
-  if (width < 576) return 3;    // Mobile
-  if (width < 768) return 3;    // Tablet
-  if (width < 992) return 3.5;  // Small desktop
-  if (width < 1400) return 4;   // Desktop
-  return 4.5;                   // Large desktop
-};
-```
-
-#### Animation Timing (Curve.jsx)
-```javascript
-const duration = 3500;  // Line drawing duration (ms)
-// In 'pausing' phase:
-state.animationStartTime = now + 2000;  // Pause before fade (ms)
-// In 'fading' phase:
-const duration = 2500;  // Fade out duration (ms)
-```
-
 ## File Structure Explained
 
 | File | Purpose |
 |------|---------|
 | `GlobeAnimation.jsx` | Canvas wrapper with responsive zoom handling |
+| `HeroSection.jsx` | Hero section with heading and globe |
+| `HeroSection.css` | Responsive styling |
 | `components/Globe.jsx` | Main container rendering Earth, Land, and Curves |
 | `components/Earth.jsx` | The sphere representing the globe |
 | `components/Land.jsx` | Renders continent outlines as dots using map.png |
 | `components/Curve.jsx` | Animated travel routes with bezier curves |
+| `config/globeConfig.js` | Default configuration values |
+| `config/GlobeConfigProvider.jsx` | React context for live config (demo only) |
+| `config/ExportPanel.jsx` | Export functionality (demo only) |
 | `utilities/globe.js` | Coordinate conversion, map loading utilities |
 | `utilities/travels.js` | Travel route definitions |
 | `utilities/countries.js` | Country coordinate lookup |
@@ -209,6 +204,11 @@ const duration = 2500;  // Fade out duration (ms)
 | `@react-three/fiber` | ^9.4.2 | React renderer for Three.js |
 | `@react-three/drei` | ^10.7.7 | Useful helpers (OrbitControls) |
 | `d3` | ^7.9.0 | Geographic interpolation for curves |
+| `leva` | ^0.10.1 | GUI controls panel (demo only) |
+| `jszip` | ^3.10.1 | ZIP file generation (demo only) |
+| `file-saver` | ^2.0.5 | File download (demo only) |
+
+**Note:** `leva`, `jszip`, and `file-saver` are only needed for the demo's configuration panel and export feature. The exported component doesn't require these.
 
 ## Browser Support
 

@@ -6,8 +6,11 @@ import Land from "./Land";
 import Curve from "./Curve";
 
 import { travels } from "../utilities/travels";
+import { useGlobeConfig } from "../config/GlobeConfigProvider";
 
 const Globe = () => {
+  const { autoRotate, autoRotateSpeed } = useGlobeConfig();
+
   return (
     <>
       {travels.map((travel) => {
@@ -16,7 +19,11 @@ const Globe = () => {
       <Land />
       <Earth />
 
-      <OrbitControls enableRotate autoRotate />
+      <OrbitControls 
+        enableRotate 
+        autoRotate={autoRotate} 
+        autoRotateSpeed={autoRotateSpeed} 
+      />
     </>
   );
 };

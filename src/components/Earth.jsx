@@ -1,16 +1,18 @@
 import React from "react";
 import { RADIUS, ROTATION } from "../utilities/globe";
-const Earth = () => {
+import { useGlobeConfig } from "../config/GlobeConfigProvider";
 
+const Earth = () => {
+  const { globeColor, globeOpacity } = useGlobeConfig();
 
   return (
     <mesh rotation={ROTATION} name="earth">
       <sphereGeometry args={[RADIUS, 64, 64]} />
       <meshBasicMaterial
-        color="rgb(28,49,58)"
-        opacity="0.85"
+        color={globeColor}
+        opacity={globeOpacity}
         transparent={true}
-        dithering="true"
+        dithering={true}
       />
     </mesh>
   );

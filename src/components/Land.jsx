@@ -7,9 +7,11 @@ import {
   ROTATION,
 } from "../utilities/globe";
 import { BufferAttribute } from "three";
+import { useGlobeConfig } from "../config/GlobeConfigProvider";
 
 const Land = () => {
   const geometryRef = useRef();
+  const { landColor, landPointSize } = useGlobeConfig();
 
   useEffect(() => {
     const load = async () => {
@@ -42,7 +44,7 @@ const Land = () => {
   return (
     <points rotation={ROTATION} name="land">
       <bufferGeometry ref={geometryRef} />
-      <pointsMaterial size={1} color="rgb(154,174,182)" />
+      <pointsMaterial size={landPointSize} color={landColor} />
     </points>
   );
 };
