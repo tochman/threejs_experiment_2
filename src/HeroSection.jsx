@@ -7,6 +7,7 @@ const HeroSection = () => {
     <div className="hero-container">
       {/* Text Overlay */}
       <div className="text-container">
+        <h1 className="hero-text">Local Focus</h1>
         <h1 className="hero-text">Global Presence</h1>
       </div>
 
