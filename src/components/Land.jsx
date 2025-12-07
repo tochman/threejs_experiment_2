@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   loadMap,
   getImageData,
@@ -6,9 +6,10 @@ import {
   polar2Cartesian,
   ROTATION,
 } from "../utilities/globe";
+import { BufferAttribute } from "three";
 
 const Land = () => {
-  const [dots, setDots] = useState([]);
+  const geometryRef = useRef();
 
   useEffect(() => {
     const load = async () => {
@@ -28,7 +29,11 @@ const Land = () => {
           vertices.push(c.x, c.y, c.z);
         }
       }
-      setDots(new Float32Array(vertices));
+      
+      if (geometryRef.current) {
+        const positions = new Float32Array(vertices);
+        geometryRef.current.setAttribute('position', new BufferAttribute(positions, 3));
+      }
     };
 
     load();
@@ -36,16 +41,7 @@ const Land = () => {
 
   return (
     <points rotation={ROTATION} name="land">
-      <bufferGeometry attach="geometry">
-        {dots.length && (
-          <bufferAttribute
-            attachObject={["attributes", "position"]}
-            count={dots.length / 3}
-            array={dots}
-            itemSize={3}
-          />
-        )}
-      </bufferGeometry>
+      <bufferGeometry ref={geometryRef} />
       <pointsMaterial size={1} color="rgb(154,174,182)" />
     </points>
   );
