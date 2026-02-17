@@ -1,4 +1,3 @@
-import React from 'react';
 import { useControls, button, folder } from 'leva';
 import { exportProject } from './exportProject';
 import { travels } from '../utilities/travels';
